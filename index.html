@@ -1,0 +1,110 @@
+<div class="app">
+  <h1>Timecodes</h1>
+  <p class="desc">Press ~ to play, Enter to paste current time on new line, -/+ to go back and forth for 1 second</p>
+  <audio
+    id="audio"
+    controls
+    src="http://upload.wikimedia.org/wikipedia/commons/a/a9/Tromboon-sample.ogg"
+    ontimeupdate="updateTrackTime(this)"
+  >
+  </audio>
+  <textarea
+    id="txt"
+    rows="40"
+    onkeypress="process(event, this)"
+    autofocus
+  >
+  </textarea>
+</div>
+
+<script>
+var time = '00:00'
+function formatSecondsAsTime(secs, format) {
+  var hr  = Math.floor(secs / 3600)
+  var min = Math.floor((secs - (hr * 3600))/60)
+  var sec = Math.floor(secs - (hr * 3600) -  (min * 60))
+
+  if (min < 10){ 
+    min = "0" + min
+  }
+  if (sec < 10){ 
+    sec  = "0" + sec
+  }
+
+  return min + ':' + sec
+}
+
+function updateTrackTime(track){
+  time = formatSecondsAsTime(Math.floor(track.currentTime).toString())
+}
+
+function process(e) {
+  const equalsSign = 61
+  const minusSign = 45
+  const enter = 13
+  const apostRu = 93
+  const apost = 96
+
+  const audio = document.getElementById("audio")
+  const currentTime = Math.floor(audio.currentTime)
+
+  const keyPressed = e.keyCode
+
+  if (keyPressed == enter) {
+    e.preventDefault()
+    document.getElementById("txt").value += '\n' + time + ' '
+  } else if (keyPressed == apost || keyPressed == apostRu) {
+    e.preventDefault()
+    audio.paused ? audio.play() : audio.pause()
+  } else if (keyPressed == minusSign) {
+    e.preventDefault()
+    audio.currentTime = currentTime - 1
+  } else if (keyPressed == equalsSign) {
+    e.preventDefault()
+    audio.currentTime = currentTime + 1
+  }
+}
+  
+</script>
+
+<style>
+body {
+  font-size: 13px;
+  font-family: -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+  line-height: 1.462;
+}
+
+h1 {
+  margin-bottom: 0;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.desc {
+  color: grey;
+  margin-top: 7px;
+}
+
+#audio {
+  width: 540px;
+  margin-bottom: 8px;
+  margin-top: 30px;
+}
+
+textarea {
+  width: 510px;
+  padding: 20px;
+  box-sizing: content-box;
+  border: none;
+  font: inherit;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+</style>
