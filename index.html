@@ -1,6 +1,10 @@
 <div class="app">
   <h1>Timecodes</h1>
   <p class="desc">Press ~ to play, Enter to paste current time on new line, -/+ to go back and forth for 1 second</p>
+  <div class="flex">
+    <a href="file:///Users/elias/Music/Podcasts/">Podcasts Directory</a>
+    <a id="myLink" href="#" onclick="load();return false;">Load audio</a>
+    </div>
   <audio
     id="audio"
     controls
@@ -19,6 +23,18 @@
 
 <script>
 var time = '00:00'
+
+function  load() {
+  const link = prompt('Enter link to audio')
+  const audio = document.getElementById("audio")
+  if (link) {
+    audio.src = link
+    audio.play()
+    var txt = document.getElementById('txt')
+    txt.focus()
+  }
+}
+
 function formatSecondsAsTime(secs, format) {
   var hr  = Math.floor(secs / 3600)
   var min = Math.floor((secs - (hr * 3600))/60)
@@ -105,6 +121,10 @@ textarea {
 
 textarea:focus {
   outline: none;
+}
+
+flex {
+  display: flex;
 }
 
 </style>
