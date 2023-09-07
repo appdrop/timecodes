@@ -2,7 +2,6 @@
   <h1>Timecodes</h1>
   <p class="desc">Press ~ to play, Enter to paste current time on new line, -/+ to go back and forth for 1 second</p>
   <div class="flex">
-    <a href="file:///Users/elias/Music/Podcasts/">Podcasts Directory</a>
     <a id="myLink" href="#" onclick="load();return false;">Load audio</a>
     </div>
   <audio
@@ -24,7 +23,7 @@
 <script>
 var time = '00:00'
 
-function  load() {
+function load() {
   const link = prompt('Enter link to audio')
   const audio = document.getElementById("audio")
   if (link) {
